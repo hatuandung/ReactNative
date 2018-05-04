@@ -1,6 +1,6 @@
 'use strict'
 
-function search(input, target/*, lo , mid, hi*/) {
+function search(input, target, left, right) {
   //return  input.indexOf(target);  // Remove this line and change to your own algorithm
   /*let lo = 0;
   let mid = -1;
@@ -28,7 +28,7 @@ function search(input, target/*, lo , mid, hi*/) {
       return i;
     }
   }*/
-  var left = 0;
+  /*var left = 0;
   var right = input.length - 1 ;
   while(left <= right){
     let mid = Math.round((left + right) / 2);
@@ -41,9 +41,17 @@ function search(input, target/*, lo , mid, hi*/) {
     else
       left = mid +1;
   }
-  return -1;
-  
+  return -1;*/
+  //const mid = Math.round((ft + right) / 2);
+  //const soSanh = (input, target, left, right) => (input[mid] > target) ? search(input, target, left, mid -1) : search(input ,target, mid + 1, right);
+  //return (input[mid] == target) ? mid : soSanh(input, target,left, right);
+  //return (input[mid] > target) ? search(input, target, left, mid -1) : search(input ,target, mid + 1, right);
+  //return (input[mid] == target) ? mid : search(input, target, mid + 1, right);
+  const mid = Math.floor((left + right) / 2);
+  return input[mid] == target ? mid : search(input, target, left, right) > target ? search(input, target, left, mid - 1) : search(input, target, mid + 1, left); 
 }
+
+
 
 
 
