@@ -4,92 +4,46 @@
  * @flow
  */
 
-import React, { Component } from 'react';
-import {
-  Platform,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
-import ColorButton from "./ColorButton";
+import React, { Component } from "react";
+import { StyleSheet, Text, View } from "react-native";
 
+import GamePlay from "./containers/GamePlay";
+import GameOver from "./containers/GameOver";
+import StyleDemo from "./containers/StyleDemo";
 
-//component
-//Props
-//State
-//Learn one code everyone
+// Component
+// Props
+// State
 
-// Function Commponent
+// Function component
 const Text2 = props => (
   <View>
     <Text>
       {props.children}
       {props.username}
     </Text>
-  </View>);
+  </View>
+);
 
-//Class Component
+// Class component
 export default class App extends Component {
   state = {
-    colors : ["red", "green", "blue", "black"],
-
-    answer : [],
-    index: 0
+    isPlaying: true
   };
-  componentDidMount() {
-    this._createRandomRequirement();
-  }
-  _createRandomRequirement = () => {
+
+  _onGameOver = score =>
     this.setState({
-      requirement : Array.from({ length : 4}).map(i => Math.floor(Math.random() * 4)),
-      answer : [],
-      index : 0
+      isPlaying: false,
+      score
     });
-  }
 
-  _input = (id) => {
-    this.setState({
-      answer : this.state.answer.concat([id]),
-      index : this.state.index + 1
-    })
-  }
-
-  _onButtonPressed = id => {
-    id = this.state.requirement[this.state.index] ? this._input(id) : this._createRandomRequirement(); 
-    
-  };
+  _onReplay = () => this.setState({ isPlaying: true });
 
   render() {
-    const buttons = this.state.colors
-      .map((color, index) => <ColorButton 
-      key = {index}
-      onButtonPressed = {this._onButtonPressed}
-       id = { index} bgColor={color} />)
-    return (
-      <View style={styles.container}>
-        <Text> {this.state.requirement} </Text>
-        <Text> {this.state.answer} </Text>
-        {buttons}
-      </View>
+    return this.state.isPlaying ? (
+      <GamePlay onGameOver={this._onGameOver} />
+    ) : (
+      <GameOver score={this.state.score} onReplay={this._onReplay} />
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
